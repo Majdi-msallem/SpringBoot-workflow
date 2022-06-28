@@ -1,0 +1,43 @@
+# Log level
+logging:
+  level:
+    root: INFO
+    com.huytmb: DEBUG
+    org.springframework.integration: DEBUG
+
+# Mail
+mail:
+  imap:
+    ssl: true
+    host: imap.gmail.com
+    port: 993
+    username: testrh022%40gmail.com
+    password: ztygkzhlotfhfhae
+
+# Task execution
+spring:
+  task:
+    execution:
+      thread-name-prefix: autohost-task-
+      pool:
+        core-size: 2
+        max-size: 200
+        queue-capacity: 10000
+    scheduling:
+      thread-name-prefix: mail-receiver-
+      pool:
+        size: 2
+#  autoconfigure:
+  #  exclude: org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+  datasource:
+        password: 
+        url: jdbc:mysql://localhost:3306/mail_reciver?createDatabaseIfNotExist=true
+        username: root     
+spring.jpa:
+  hibernate.ddl-auto: update
+  show-sql: true  
+
+
+
+
+    
