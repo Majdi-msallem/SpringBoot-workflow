@@ -24,9 +24,11 @@ public class testController {
 	@ResponseBody
 	public long ajouterper( )
 	{ 
-		
+		//Deploye process
 		repositoryService.createDeployment().addClasspathResource("processes/diagram.bpmn").deploy();
+		//start process
 	ProcessInstance instance = runtimeservice.startProcessInstanceByKey("myProcess");
+	// Verify that we started a new process instance
 	return repositoryService.createProcessDefinitionQuery().count();
           
 	}
