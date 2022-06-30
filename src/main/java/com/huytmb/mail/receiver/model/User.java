@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,9 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 
@@ -31,6 +31,10 @@ public class User {
 	private String userLName;
 	private String email;
 	private String Password;
+	
+	
+	/*@Enumerated(EnumType.STRING)
+	private Specialite specialite;*/
 	
 	
 	@ManyToMany(fetch =FetchType.EAGER, cascade=CascadeType.MERGE)
@@ -105,6 +109,16 @@ public class User {
 	public void setRole(Set<Role> role) {
 		this.role = role;
 	}
+
+
+	/*public Specialite getSpecialite() {
+		return specialite;
+	}
+
+
+	public void setSpecialite(Specialite specialite) {
+		this.specialite = specialite;
+	}*/
 	
 	
 	

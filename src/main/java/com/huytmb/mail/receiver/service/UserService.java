@@ -26,7 +26,7 @@ public class UserService {
 	private PasswordEncoder pe;
 	
   public User register(User  user){
-	  Role role =  rr.findByRoleName("User");
+	  Role role =  rr.findByRoleName("rh");
 	  Set<Role> roles = new HashSet<>();
 	  roles.add(role);
 	  user.setRole(roles);
@@ -34,18 +34,23 @@ public class UserService {
 	  return ur.save(user);
   }
   
-  public void initRolesAndUSer(){
-	  Role adminRole = new Role();
-	  adminRole.setRoleName("admin");
-	  adminRole.setRoleDescription("admin role");
-	  rr.save(adminRole);
+  /* public void initRolesAndUSer(){
+	  Role rhRole = new Role();
+	  rhRole.setRoleName("rh");
+	  rhRole.setRoleDescription("rh role");
+	  rr.save(rhRole);
 	  
 	  
-	  Role userRole = new Role();
-	  userRole.setRoleName("User");
-	  userRole.setRoleDescription("Default role for new user");
-	  rr.save(userRole);
+	  Role drhRole = new Role();
+	  drhRole.setRoleName("d_rh");
+	  drhRole.setRoleDescription("d_rh role");
+	  rr.save(drhRole);
 	  
+	  Role techRole = new Role();
+	  techRole.setRoleName("tech");
+	  techRole.setRoleDescription(" tech role");
+	  rr.save(techRole);
+
 	  User adminUser = new User();
 	  adminUser.setUserFName("fnadminu");
 	  adminUser.setUserLName("lnadminu");
@@ -58,7 +63,7 @@ public class UserService {
 	  ur.save(adminUser);
 	  
 	  
-	 /* User user = new User();
+	 User user = new User();
 	  user.setUserFName("fnuser");
 	  user.setUserLName("lnuser");
 	  user.setUserName("useername");
@@ -67,8 +72,9 @@ public class UserService {
 	  Set<Role> userRoles = new HashSet<>();
 	  userRoles.add(userRole);
 	  user.setRole(userRoles);
-	  ur.save(user);*/
-  }
+	  ur.save(user);
+	
+  }  */
   
   
   public String getEncodedPassword(String password){

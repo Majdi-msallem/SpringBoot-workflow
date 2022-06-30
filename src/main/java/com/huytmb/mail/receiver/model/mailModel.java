@@ -6,9 +6,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 
@@ -34,7 +37,17 @@ public class mailModel {
 	    private String cc;
 	    private String contentType;
 	    
-	   
+		@Enumerated(EnumType.STRING)
+	    private Status Status;
+		
+		@ManyToOne(cascade =CascadeType.PERSIST)
+		private Traitement tr1;
+		
+		@ManyToOne(cascade =CascadeType.PERSIST)
+		private Traitement tr2;
+		
+		
+		
 	    @OneToMany(cascade=CascadeType.ALL,mappedBy="mailmodel")
 	    private List<attachementsModel> attachments = new ArrayList<attachementsModel>();
 	    

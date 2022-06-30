@@ -17,11 +17,11 @@ public class UserController {
 	@Autowired
 	private UserService us;
 
-	//lancer la methode depuis le demarrage de lapplication
-	@PostConstruct
+	 //lancer la methode depuis le demarrage de lapplication
+	/*@PostConstruct
 	public void initRolesAndUSers(){
 		us.initRolesAndUSer();
-	}
+	}*/
 	@PostMapping({"/register"})
 	public User register(@RequestBody User user){
 		return us.register(user);
