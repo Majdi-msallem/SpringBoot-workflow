@@ -20,8 +20,10 @@
     <sequenceFlow id="flow6" sourceRef="sendAccMail" targetRef="TechInterview"></sequenceFlow>
     <serviceTask id="SendInfoMail" name="Send email"></serviceTask>
     <endEvent id="endEvent2" name="End"></endEvent>
-    <sequenceFlow id="flow7" sourceRef="TechInterview" targetRef="SendInfoMail"></sequenceFlow>
     <sequenceFlow id="flow8" sourceRef="SendInfoMail" targetRef="endEvent2"></sequenceFlow>
+    <userTask id="d_rh" name="D_RH" activiti:assignee="$(d_rh)"></userTask>
+    <sequenceFlow id="flow9" sourceRef="TechInterview" targetRef="d_rh"></sequenceFlow>
+    <sequenceFlow id="flow10" sourceRef="d_rh" targetRef="SendInfoMail"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_myProcess">
     <bpmndi:BPMNPlane bpmnElement="myProcess" id="BPMNPlane_myProcess">
@@ -47,10 +49,13 @@
         <omgdc:Bounds height="55.0" width="105.0" x="590.0" y="230.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="SendInfoMail" id="BPMNShape_SendInfoMail">
-        <omgdc:Bounds height="55.0" width="105.0" x="780.0" y="230.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="881.0" y="230.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endEvent2" id="BPMNShape_endEvent2">
-        <omgdc:Bounds height="35.0" width="35.0" x="960.0" y="240.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="1010.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="d_rh" id="BPMNShape_d_rh">
+        <omgdc:Bounds height="55.0" width="105.0" x="740.0" y="230.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="225.0" y="257.0"></omgdi:waypoint>
@@ -76,13 +81,17 @@
         <omgdi:waypoint x="511.0" y="257.0"></omgdi:waypoint>
         <omgdi:waypoint x="590.0" y="257.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
-        <omgdi:waypoint x="695.0" y="257.0"></omgdi:waypoint>
-        <omgdi:waypoint x="780.0" y="257.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
-        <omgdi:waypoint x="885.0" y="257.0"></omgdi:waypoint>
-        <omgdi:waypoint x="960.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="986.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1010.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="695.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="740.0" y="257.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="845.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="881.0" y="257.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

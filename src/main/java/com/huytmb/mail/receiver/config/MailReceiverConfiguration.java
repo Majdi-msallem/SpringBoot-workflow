@@ -46,7 +46,7 @@ public class MailReceiverConfiguration {
     @Bean()
     @InboundChannelAdapter(
             channel = "receiveEmailChannel",
-            poller = @Poller(fixedDelay = "10000", taskExecutor = "asyncTaskExecutor")
+            poller = @Poller(fixedDelay = "100000", taskExecutor = "asyncTaskExecutor")
     )
     public MailReceivingMessageSource mailMessageSource(MailReceiver mailReceiver) {
         MailReceivingMessageSource mailReceivingMessageSource = new MailReceivingMessageSource(mailReceiver);
