@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
+import com.huytmb.mail.receiver.model.Status;
 import com.huytmb.mail.receiver.model.attachementsModel;
 import com.huytmb.mail.receiver.model.mailModel;
 import com.huytmb.mail.receiver.repository.MailRepo;
@@ -126,6 +127,8 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
         mail.setSenderAddress(mimeMessageParser.getFrom());
         mail.setSubject(mimeMessageParser.getSubject());
         mail.setCc(mimeMessageParser.getPlainContent());
+        mail.setStatus(Status.nontraiter);
+        
         
        
        // mail.writeTo(new FileOutputStream(new File("c:/mail.eml")));

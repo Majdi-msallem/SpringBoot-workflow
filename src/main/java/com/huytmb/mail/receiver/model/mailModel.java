@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class mailModel {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int  id;
+	private int  idMail;
 	 private String subject;
 	    private String senderAddress;
 	    private String cc;

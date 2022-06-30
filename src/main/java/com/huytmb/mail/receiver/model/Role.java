@@ -17,14 +17,14 @@ import lombok.ToString;
 public class Role {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int idRole;
 	private String roleName;
 	private String roleDescription;
-	public int getId() {
-		return id;
+	public int getIdRole() {
+		return idRole;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setIdRole(int idRole) {
+		this.idRole = idRole;
 	}
 	public String getRoleName() {
 		return roleName;
@@ -38,6 +38,8 @@ public class Role {
 	public void setRoleDescription(String roleDescription) {
 		this.roleDescription = roleDescription;
 	}
+	
+	
 
 	
 	

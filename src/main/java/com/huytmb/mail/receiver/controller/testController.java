@@ -6,10 +6,14 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.huytmb.mail.receiver.service.ActivitiService;
 
 
 @RestController
@@ -17,6 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class testController {
 	@Autowired
 	private  RuntimeService runtimeservice;
+	
+	@Autowired
+	private ActivitiService acts;
 	
 	@Autowired
 	private RepositoryService repositoryService;
@@ -31,5 +38,11 @@ public class testController {
 	// Verify that we started a new process instance
 	return repositoryService.createProcessDefinitionQuery().count();
           
+	}
+	
+	@PostMapping(value = "/process/{idMail}/{fs}/{roleName}")
+	@ResponseBody
+	public void startProcessInstance(@PathVariable int idMail,@PathVariable int fs, @PathVariable String roleName) {
+		 acts.startProcess(idMail,fs,roleName);
 	}
 }
