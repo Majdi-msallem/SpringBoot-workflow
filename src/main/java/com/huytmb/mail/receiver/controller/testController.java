@@ -40,9 +40,10 @@ public class testController {
           
 	}
 	
-	@PostMapping(value = "/process/{idMail}/{fs}/{roleName}")
+	@PostMapping(value = "/process/{idMail}/{fs}/{roleName}/{cause}")
 	@ResponseBody
-	public void startProcessInstance(@PathVariable int idMail,@PathVariable int fs, @PathVariable String roleName) {
-		 acts.startProcess(idMail,fs,roleName);
+	public void startProcessInstance(@PathVariable int idMail,@PathVariable int fs, @PathVariable String roleName,
+			@PathVariable String cause) {
+		 acts.startProcess(idMail,fs,roleName,cause);
 	}
 }

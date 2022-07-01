@@ -2,6 +2,7 @@ package com.huytmb.mail.receiver.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.ManagementService;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.huytmb.mail.receiver.model.Status;
+import com.huytmb.mail.receiver.model.mailModel;
+import com.huytmb.mail.receiver.repository.MailRepo;
 
 @Service
 public class ActivitiService {
@@ -32,18 +35,26 @@ public class ActivitiService {
 
 		@Autowired
 		private RepositoryService repositoryService;
+		@Autowired
+		private  MailRepo  mr;
 	    
-	    
-	    public void startProcess (int idMail, int fs,String roleName){
+	    public void startProcess (int idMail, int fs,String roleName,String cause){
 			   Map<String, Object> variables = new HashMap<String, Object>();
 			   if(fs==1){
 				   variables.put("fs",1);
 				   variables.put("tech", roleName);
 				   variables.put("idMail",idMail);
+				   mailModel mail= mr.findById(idMail).orElse(null);    
+				   mail.setStatus(Status.encours);
+				   mail.setCause(cause);
+  
 
 			   }else{
 				   variables.put("fs",2);
 				   variables.put("idMail",idMail);
+				   mailModel mail= mr.findById(idMail).orElse(null);    
+				     mail.setStatus(Status.traiter);
+				     mail.setCause(cause);
 
 			   }
 				repositoryService.createDeployment().addClasspathResource("processes/diagram.bpmn").deploy();
