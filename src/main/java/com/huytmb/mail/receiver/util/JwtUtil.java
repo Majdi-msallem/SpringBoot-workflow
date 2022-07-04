@@ -5,8 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.huytmb.mail.receiver.model.User;
+import com.huytmb.mail.receiver.service.JwtService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,11 +21,26 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtUtil {
 	
+	 @Autowired
+	    private JwtService jwts;
 	private static final String SECRET_KEY = "secretkey";
 	private static final int TOKEN_VALIDITY = 3600*5;
+	
+	
 	public String getUserNameFromToken(String token){
 		 return getClaimFromToken(token, Claims::getSubject);
 	}
+	
+		public User getuserFromRequest(HttpServletRequest request){
+			String authorizationHeader = request.getHeader("Authorization");
+			String token=null;
+			String userName = null;
+			if (authorizationHeader != null &&authorizationHeader.startsWith("Bearer")){
+				token=authorizationHeader.substring(7);
+				userName= getUserNameFromToken(token);
+			}
+			return token == null ? null : jwts.getFulluser(userName);
+		}
 	
 	private <T> T getClaimFromToken(String token,Function<Claims, T> claimResolver){
 		 final Claims claims =getAllClaimsFromToken(token);

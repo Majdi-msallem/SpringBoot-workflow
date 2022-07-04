@@ -8,7 +8,7 @@ public class FinalMailSend implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) {
 		
-		System.out.println("final");
+		System.out.println("final mail ");
 		
 	}
 

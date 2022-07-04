@@ -62,6 +62,10 @@ public class JwtService implements UserDetailsService {
 	}
 	
 	
+	public User getFulluser (String username) throws UsernameNotFoundException{
+		return ur.findByUserName(username);
+	}
+	
 	private Set getAuthorities (User user){
 		Set authorities = new HashSet();
 		

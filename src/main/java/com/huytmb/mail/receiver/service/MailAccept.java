@@ -12,5 +12,5 @@ public class MailAccept implements JavaDelegate {
 		System.out.println("accept");
 		
 	}
-
+ 
 }

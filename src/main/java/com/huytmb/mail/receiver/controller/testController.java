@@ -2,10 +2,17 @@ package com.huytmb.mail.receiver.controller;
 
 
 
+import java.util.List;
+
+import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
+
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.huytmb.mail.receiver.model.Etat;
+import com.huytmb.mail.receiver.model.mailModel;
 import com.huytmb.mail.receiver.service.ActivitiService;
 
 
@@ -39,11 +48,27 @@ public class testController {
 	return repositoryService.createProcessDefinitionQuery().count();
           
 	}
-	
-	@PostMapping(value = "/process/{idMail}/{fs}/{roleName}/{cause}")
+	//@Secured(value="rh")
+	@RolesAllowed("rh")
+	@PostMapping(value = "/process/{idMail}/{fs}/{cause}/{note}/{etat}")
 	@ResponseBody
-	public void startProcessInstance(@PathVariable int idMail,@PathVariable int fs, @PathVariable String roleName,
-			@PathVariable String cause) {
-		 acts.startProcess(idMail,fs,roleName,cause);
+	public void startProcessInstance(@PathVariable int idMail,@PathVariable int fs, HttpServletRequest request,
+			@PathVariable String cause,@PathVariable String note,@PathVariable Etat etat) {
+		 acts.startProcess(idMail,fs,request,cause,note,etat);
 	}
+	
+	@GetMapping("/getAllMailByRole")
+	@ResponseBody
+	public List<mailModel>  getAll_demande1Byrole (HttpServletRequest request)
+	{
+    return acts.getMailTraitement(request);
+    
+	}
+	@PostMapping("/tr2/{idMail}/{note}/{etat}")
+	@ResponseBody
+	public mailModel trait2 (HttpServletRequest request,@PathVariable int idMail,@PathVariable String note,@PathVariable Etat etat)
+	{
+		
+     return acts.Tr2mail(request, idMail, note, etat);
+	} 
 }
