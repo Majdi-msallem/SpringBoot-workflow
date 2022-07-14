@@ -1,6 +1,9 @@
 package com.huytmb.mail.receiver.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,4 +25,10 @@ public class RoleController {
 	return  rs.createNewRole(role);	
 	}
 
+	
+	@GetMapping({"/getAllRole"})
+	@ResponseBody
+	public List<Role> getallRole(){
+	return  (List<Role>) rs.getAllRole();
+	}
 }

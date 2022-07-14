@@ -1,7 +1,9 @@
 package com.huytmb.mail.receiver.service;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ public class UserService {
 	private PasswordEncoder pe;
 	
   public User register(User  user){
+	  List<Integer> idrole= new ArrayList<Integer>();
 	  Role role =  rr.findByRoleName("rh");
 	  Set<Role> roles = new HashSet<>();
 	  roles.add(role);
