@@ -21,6 +21,8 @@ public class RoleService {
 		return (List<Role>) rp.findAll();
 	}
 
-	
+	public void  deleteRole(int idRole){
+		this.rp.deleteById(idRole);
+	}
 
 }

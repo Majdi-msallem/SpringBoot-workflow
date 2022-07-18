@@ -15,11 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
-@Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
 public class attachementsModel {
 
@@ -34,8 +30,11 @@ public class attachementsModel {
 	 private mailModel mailmodel;
 
 
+	public attachementsModel() {
+	}
+
+
 	public attachementsModel(String name) {
-		super();
 		this.name = name;
 	}
 
@@ -44,6 +43,42 @@ public class attachementsModel {
 		super();
 		this.name = name;
 		this.mailmodel = mailmodel;
+	}
+
+
+	public int getIdAtt() {
+		return idAtt;
+	}
+
+
+	public void setIdAtt(int idAtt) {
+		this.idAtt = idAtt;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public mailModel getMailmodel() {
+		return mailmodel;
+	}
+
+
+	public void setMailmodel(mailModel mailmodel) {
+		this.mailmodel = mailmodel;
+	}
+
+
+	@Override
+	public String toString() {
+		return "attachementsModel [idAtt=" + idAtt + ", name=" + name + ", mailmodel=" + mailmodel + "]";
 	}
 	 
 	

@@ -40,10 +40,7 @@ public class MailService {
 	}
 	
 	public Optional<mailModel> refuser_Condidature(HttpServletRequest request,int idMail,boolean fs){
-		Optional<mailModel> mail=getMailByID(idMail);
-		
-		//User u =ActivitiService.
-		
+		Optional<mailModel> mail=getMailByID(idMail);		
 		return null;
 	}
 }

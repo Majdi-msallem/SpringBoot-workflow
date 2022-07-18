@@ -54,17 +54,17 @@ public class ActivitiService {
 	@Autowired
 	private TraitementRepo trr;
 
-	public void startProcess(int idMail, int fs,HttpServletRequest request, String cause,String note,Etat etat) {
+	public void startProcess(int idMail, int fs,HttpServletRequest request,String note,Etat etat,String userName) {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		User u = jwtu.getuserFromRequest(request);
-
+			
 		if (fs == 1) {
 			variables.put("fs", 1);
-			variables.put("tech", "tech");
+			variables.put("tech",userName );
 			variables.put("idMail", idMail);
 			mailModel mail = mr.findById(idMail).orElse(null);
 			mail.setStatus(Status.encours);
-			mail.setCause(cause);
+			  
 			Traitement tr1 = new Traitement();
 			tr1.setGeneratedby(u.getUserName());
 			tr1.setNote(note);
@@ -77,7 +77,14 @@ public class ActivitiService {
 			variables.put("idMail", idMail);
 			mailModel mail = mr.findById(idMail).orElse(null);
 			mail.setStatus(Status.traiter);
-			mail.setCause(cause);
+			Traitement tr1 = new Traitement();
+			tr1.setGeneratedby(u.getUserName());
+			tr1.setNote(note);
+			tr1.setEtat(etat);
+			trr.save(tr1);
+			mail.setTr1(tr1);
+				mr.save(mail);
+			//mail.setCause(cause);
 
 		}
 		repositoryService.createDeployment().addClasspathResource("processes/diagram.bpmn").deploy();

@@ -38,6 +38,7 @@ public class Traitement {
 	@Enumerated(EnumType.STRING)
 	private Etat etat;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="tr1",cascade= CascadeType.ALL)
 	private List<mailModel> Listmail1 ;
 	

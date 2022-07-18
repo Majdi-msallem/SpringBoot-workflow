@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class ReceiveMailServiceImpl implements ReceiveMailService {
@@ -169,7 +170,18 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
         });
       ajouterMail(mail);
     }
-
+    
+    
+    			public attachementsModel  getAttachmentsByMailID(int idMail,int idAtt){
+    				Optional<mailModel> mail = mr.findById(idMail);
+    				if(mail.isPresent()){
+    					attachementsModel attachment=mail.get().getAttachments().stream().filter(a->a.getIdAtt()==idAtt).findAny().orElse(null);
+    					return attachment;
+    				}    			
+    				return null;
+    			}
+    			
+    			
     private void createDirectoryIfNotExists(String directoryPath) {
         if (!Files.exists(Paths.get(directoryPath))) {
             try {
@@ -179,4 +191,5 @@ public class ReceiveMailServiceImpl implements ReceiveMailService {
             }
         }
     }
+ 
 }

@@ -26,7 +26,7 @@ import com.huytmb.mail.receiver.service.ActivitiService;
 
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("/process")
 public class testController {
 	@Autowired
 	private  RuntimeService runtimeservice;
@@ -50,11 +50,11 @@ public class testController {
 	}
 	//@Secured(value="rh")
 	@RolesAllowed("rh")
-	@PostMapping(value = "/process/{idMail}/{fs}/{cause}/{note}/{etat}")
+	@GetMapping(value = "/start/{idMail}/{fs}/{note}/{etat}/{userName}")
 	@ResponseBody
 	public void startProcessInstance(@PathVariable int idMail,@PathVariable int fs, HttpServletRequest request,
-			@PathVariable String cause,@PathVariable String note,@PathVariable Etat etat) {
-		 acts.startProcess(idMail,fs,request,cause,note,etat);
+			@PathVariable String note,@PathVariable Etat etat,@PathVariable String userName) {
+		 acts.startProcess(idMail,fs,request,note,etat,userName);
 	}
 	
 	@GetMapping("/getAllMailByRole")
