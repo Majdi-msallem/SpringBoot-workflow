@@ -94,7 +94,60 @@ public class ActivitiService {
 		System.out.println("Process started. Number of currently running" + "process instances= "
 				+ runtimeService.createProcessInstanceQuery().count());
 	}
+	public List<Integer> getAllTaskByuserName(HttpServletRequest request) {
 
+		User u = jwtu.getuserFromRequest(request);
+		//String role = u.getRole().stream().findFirst().get().getRoleName();
+		String name =u.getUserName();
+		List<Task> tasks = taskService.createTaskQuery().taskAssignee(name).list();
+
+		List<Integer> idMail = new ArrayList<>();
+
+		for (Task task : tasks) {
+			System.out.println("Task available :" + task.getId());
+			idMail.add((Integer) runtimeService.getVariables(task.getExecutionId()).get("idMail"));
+			System.out.println(runtimeService.getVariables(task.getExecutionId()).get("idMail"));
+
+		}
+		System.out.println("mail id from the task" + idMail);
+		return idMail;
+	}
+	
+	public List<mailModel> getMailTrByName(HttpServletRequest request) {
+		List<mailModel> mail = new ArrayList<>();
+
+		List<Integer> idMail = getAllTaskByuserName(request);
+		System.out.println(idMail);
+		if (idMail.size() > 0) {
+			for (Integer integer : idMail) {
+				mail.add(mr.findById(integer).orElse(null));
+			}
+		}
+		return mail;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public List<Integer> getAllTask(HttpServletRequest request) {
 
 		User u = jwtu.getuserFromRequest(request);
@@ -141,7 +194,6 @@ public class ActivitiService {
 				System.out.println("task iddd traaaaitement 222ppppppp" + taskid);
 			taskid = task.getId();
 			// System.out.println(runtimeService.getVariables(task.getExecutionId()).get("idMail"));
-
 		}
 		Map<String, Object> variables = new HashMap<String, Object>();
 		// if(role=="tech"){

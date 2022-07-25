@@ -64,7 +64,14 @@ public class testController {
     return acts.getMailTraitement(request);
     
 	}
-	@PostMapping("/tr2/{idMail}/{note}/{etat}")
+	@GetMapping("/getAllMailByName")
+	@ResponseBody 
+	public List<mailModel>  getAll_demande1ByName(HttpServletRequest request)
+	{
+    return acts.getMailTrByName(request);
+    
+	}
+	@GetMapping("/tr2/{idMail}/{note}/{etat}")
 	@ResponseBody
 	public mailModel trait2 (HttpServletRequest request,@PathVariable int idMail,@PathVariable String note,@PathVariable Etat etat)
 	{

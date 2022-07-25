@@ -1,13 +1,28 @@
 package com.huytmb.mail.receiver.service;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.Set;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +31,8 @@ import com.huytmb.mail.receiver.model.Role;
 
 import com.huytmb.mail.receiver.repository.RoleRepository;
 import com.huytmb.mail.receiver.repository.UserRepositroy;
+
+import net.bytebuddy.utility.RandomString;
 
 @Service
 public class UserService {
@@ -28,7 +45,7 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder pe;
 	
-  public User register(User  user){
+  public User register(User  user) {
 	  List<Integer> idrole= new ArrayList<Integer>(); 
 	  for (Role role : user.getRole()) {
 		idrole.add(role.getIdRole());
@@ -37,16 +54,73 @@ public class UserService {
 	  List<Role> role =(List<Role>) rr.findAllById(idrole);
 	  Set<Role> roles = new HashSet<>(role);
 	  user.setRole(roles);
+	  user.setEnabled(false);
+	 String randomCode= RandomString.make(64);
+	 user.setVerificationcode(randomCode);
 	 user.setPassword(getEncodedPassword(user.getPassword()));
 	  return ur.save(user);
   }
-  
-  public List<User> getAllUsers(){
-	  return (List<User>) ur.findAll();
+
+  public void sendVerificationEmail(User user,String siteUrl)throws AddressException, MessagingException, IOException{
+	  Properties props = new Properties();
+	   props.put("mail.smtp.auth", "true");
+	   props.put("mail.smtp.starttls.enable", "true");
+	   props.put("mail.smtp.host", "smtp.gmail.com");
+	   props.put("mail.smtp.port", "587");
+	   
+	   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+	      protected PasswordAuthentication getPasswordAuthentication() {
+	         return new PasswordAuthentication("testrh022@gmail.com", "ztygkzhlotfhfhae");
+	      }
+	   });
+	   
+	   String mailContent = "<p>Dear: "+user.getUserName()+",</p> <br>";
+	   mailContent +=" Please click the Link below to verify  to your registration </p> ";
+	   String verifyUrl = siteUrl +"/verify?code=" +user.getVerificationcode();
+	   mailContent +="<h3><a href=\""+verifyUrl+"\"> Verify</a> </h3>";
+	   mailContent +="<p> Thank you<br> TrituxGroup </p>";
+	   Message msg = new MimeMessage(session);
+	   msg.setFrom(new InternetAddress("testrh022@gmail.com", false));
+
+	   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("majdi.msallem@esprit.tn"));
+	   msg.setSubject("Please verify your registration");
+	   msg.setContent(mailContent,"text/html");
+			   
+
+	  /* MimeBodyPart messageBodyPart = new MimeBodyPart();
+	   messageBodyPart.setContent("Tutorials point email", "text/html");
+
+	   Multipart multipart = new MimeMultipart();
+	   multipart.addBodyPart(messageBodyPart);
+	   MimeBodyPart attachPart = new MimeBodyPart();
+
+	   attachPart.attachFile("/var/tmp/image19.png");
+	   multipart.addBodyPart(attachPart);
+	   msg.setContent(multipart);*/
+	   Transport.send(msg);	
+}
+
+public Page<User> getAllUsers(PageRequest pr){
+	  return (Page<User>) ur.findAll(pr);
   }
   public Optional<User>  getUserById(int id){
 	  return ur.findById(id);
   }
+  
+  public  List<User> getAllUsersByroleName(){
+	  return ur.findAllUsersByroleName();
+  }
+  	public boolean Verify(String verificationcode){
+  		User user= ur.FindByVerificationCode(verificationcode);
+  		
+  		if (user == null || user.isEnabled()){
+  			return false;
+  		}else{
+  			ur.enable(user.getId());
+  			
+  			return true;
+  		}
+  	}
   
   /* public void initRolesAndUSer(){
 	  Role rhRole = new Role();
@@ -94,4 +168,8 @@ public class UserService {
   public String getEncodedPassword(String password){
 	  return pe.encode(password);
   }
+
+
+
+
 }

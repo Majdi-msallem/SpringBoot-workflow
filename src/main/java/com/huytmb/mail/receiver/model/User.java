@@ -31,10 +31,11 @@ public class User {
 	private String userLName;
 	private String email;
 	private String Password;
+	private boolean enabled;
+	private String verificationcode;
 	
 	
-	/*@Enumerated(EnumType.STRING)
-	private Specialite specialite;*/
+	
 	
 	
 	@ManyToMany(fetch =FetchType.EAGER, cascade=CascadeType.MERGE)
@@ -111,14 +112,27 @@ public class User {
 	}
 
 
-	/*public Specialite getSpecialite() {
-		return specialite;
+	public boolean isEnabled() {
+		return enabled;
 	}
 
 
-	public void setSpecialite(Specialite specialite) {
-		this.specialite = specialite;
-	}*/
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+
+	public String getVerificationcode() {
+		return verificationcode;
+	}
+
+
+	public void setVerificationcode(String verificationcode) {
+		this.verificationcode = verificationcode;
+	}
+
+
+	
 	
 	
 	

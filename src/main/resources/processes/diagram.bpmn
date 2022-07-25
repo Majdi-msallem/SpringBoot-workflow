@@ -19,9 +19,7 @@
     <endEvent id="endEvent2" name="End"></endEvent>
     <sequenceFlow id="flow8" sourceRef="SendInfoMail" targetRef="endEvent2"></sequenceFlow>
     <userTask id="d_rh" name="D_RH" activiti:assignee="${d_rh}"></userTask>
-    <sequenceFlow id="flow9" sourceRef="TechInterview" targetRef="d_rh">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${traitement2==true}]]></conditionExpression>
-    </sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="TechInterview" targetRef="d_rh"></sequenceFlow>
     <sequenceFlow id="flow10" sourceRef="d_rh" targetRef="SendInfoMail">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${mail==true}]]></conditionExpression>
     </sequenceFlow>
