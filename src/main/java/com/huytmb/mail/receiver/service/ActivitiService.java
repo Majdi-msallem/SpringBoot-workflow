@@ -54,6 +54,9 @@ public class ActivitiService {
 	@Autowired
 	private TraitementRepo trr;
 
+	
+	
+	//First step start procees ROLE RH accept/reject
 	public void startProcess(int idMail, int fs,HttpServletRequest request,String note,Etat etat,String userName) {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		User u = jwtu.getuserFromRequest(request);
@@ -94,20 +97,18 @@ public class ActivitiService {
 		System.out.println("Process started. Number of currently running" + "process instances= "
 				+ runtimeService.createProcessInstanceQuery().count());
 	}
+	
+	//get liste Tasks of mail By userNameConnected
 	public List<Integer> getAllTaskByuserName(HttpServletRequest request) {
-
 		User u = jwtu.getuserFromRequest(request);
 		//String role = u.getRole().stream().findFirst().get().getRoleName();
 		String name =u.getUserName();
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(name).list();
-
 		List<Integer> idMail = new ArrayList<>();
-
 		for (Task task : tasks) {
 			System.out.println("Task available :" + task.getId());
 			idMail.add((Integer) runtimeService.getVariables(task.getExecutionId()).get("idMail"));
 			System.out.println(runtimeService.getVariables(task.getExecutionId()).get("idMail"));
-
 		}
 		System.out.println("mail id from the task" + idMail);
 		return idMail;
@@ -128,47 +129,24 @@ public class ActivitiService {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public List<Integer> getAllTask(HttpServletRequest request) {
 
+	//get liste Tasks of mail By RoleConnected 
+	public List<Integer> getAllTask(HttpServletRequest request) {
 		User u = jwtu.getuserFromRequest(request);
 		String role = u.getRole().stream().findFirst().get().getRoleName();
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(role).list();
-
 		List<Integer> idMail = new ArrayList<>();
-
 		for (Task task : tasks) {
 			System.out.println("Task available :" + task.getId());
 			idMail.add((Integer) runtimeService.getVariables(task.getExecutionId()).get("idMail"));
 			System.out.println(runtimeService.getVariables(task.getExecutionId()).get("idMail"));
-
 		}
 		System.out.println("mail id from the task" + idMail);
 		return idMail;
 	}
-
+		
 	public List<mailModel> getMailTraitement(HttpServletRequest request) {
 		List<mailModel> mail = new ArrayList<>();
-
 		List<Integer> idMail = getAllTask(request);
 		System.out.println(idMail);
 		if (idMail.size() > 0) {
@@ -179,6 +157,8 @@ public class ActivitiService {
 		return mail;
 	}
 
+	
+//sending a task from tech to rh
 	public User traitement2Mail(HttpServletRequest request, int idMail) {
 		User u = jwtu.getuserFromRequest(request);
 		String role = u.getRole().stream().findFirst().get().getRoleName();
@@ -224,5 +204,39 @@ public class ActivitiService {
 			mr.save(mail);
 		return mail;
 	}
+	
+	//traitement final 
+	public User traitementfinal(HttpServletRequest request, int idMail) {
+		User u = jwtu.getuserFromRequest(request);
+		String role = u.getRole().stream().findFirst().get().getRoleName();
 
+		List<Task> tasks = taskService.createTaskQuery().taskAssignee(role).list();
+		String taskid = null;
+		Integer a = null;
+		for (Task task : tasks) {
+			a = (Integer) runtimeService.getVariables(task.getExecutionId()).get("idMail");
+				if (a == idMail)
+			taskid = task.getId();
+		}
+		Map<String, Object> variables = new HashMap<String, Object>();
+		
+			variables.put("idMail", idMail);
+			variables.put("traitementfinal",true);
+		
+		taskService.complete(taskid,variables);
+		return u;
+	}
+	public mailModel Trfinalmail(HttpServletRequest request, int idMail, String note, Etat etat) {
+		mailModel mail = mr.findById(idMail).orElse(null);
+		Traitement tr3 = new Traitement();
+		User u = traitement2Mail(request, idMail);
+		Role role = u.getRole().stream().findFirst().get();
+		tr3.setGeneratedby(u.getUserName());
+		tr3.setNote(note);
+		tr3.setEtat(etat);
+		trr.save(tr3);
+		mail.setTr2(tr3);
+			mr.save(mail);
+		return mail;
+	}
 }

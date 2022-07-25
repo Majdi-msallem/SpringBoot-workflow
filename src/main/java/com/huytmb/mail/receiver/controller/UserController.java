@@ -75,9 +75,9 @@ public class UserController {
 		    }
 		@GetMapping("/getalluser")
 		   @ResponseBody
-		    public Page<User> getAllUser(@RequestParam int page,@RequestParam int size) {
+		    public Page<User> getAllUser(@RequestParam int page,@RequestParam int size,@RequestParam String recherche ) {
 		  PageRequest pr=PageRequest.of(page, size);
-		  return us.getAllUsers(pr);
+		  return us.getAllUsers(pr,recherche);
 		    }
 		@GetMapping("/getalltechuser")
 		   @ResponseBody

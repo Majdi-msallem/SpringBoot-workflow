@@ -25,6 +25,6 @@ public interface MailRepo extends CrudRepository<mailModel, Integer> {
         @Query("SELECT m FROM mailModel m WHERE m.Status = 'traiter'")
         List<mailModel> traiter();  
         
-       /* @Query("SELECT m FROM mailModel m JOIN m.tr1 mt WHERE mt.generatedby = generatedby ")
-        List<mailModel> traiterByRhName(String generatedby);*/
+        @Query("SELECT m FROM mailModel m WHERE m.tr2.generatedby = ?1")
+        List<mailModel> MailGeneratedBy( String generatedby);
 }

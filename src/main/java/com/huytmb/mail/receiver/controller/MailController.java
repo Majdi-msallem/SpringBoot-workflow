@@ -77,6 +77,11 @@ public class MailController {
 	public List<mailModel> techtr() {
 		return ms.tr2();
 	}
+	@GetMapping("/listeMails/{generatedby}")
+	@ResponseBody
+	public List<mailModel> listeMaylgenererPar(@PathVariable String generatedby) {
+		return ms.ListeDesEmailGenererTR1(generatedby);
+	}
 	
 	
 	

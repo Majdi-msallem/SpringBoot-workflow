@@ -46,7 +46,9 @@ public class Traitement {
 	@OneToMany(mappedBy="tr2",cascade= CascadeType.ALL)
 	private List<mailModel> Listmail2 ;
 	
-	
+	@JsonIgnore
+	@OneToMany(mappedBy="tr3",cascade= CascadeType.ALL)
+	private List<mailModel> Listmail3 ;
 	
 	
 

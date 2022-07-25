@@ -86,6 +86,9 @@ public class MailService {
 	public List<mailModel> tr2() {
 		return mr.tr2();
 	}
+	public List<mailModel> ListeDesEmailGenererTR1(String generatedby) {
+		return mr.MailGeneratedBy(generatedby);
+	}
 	
 	public String sendmail() throws AddressException, MessagingException, IOException {
 		   Properties props = new Properties();

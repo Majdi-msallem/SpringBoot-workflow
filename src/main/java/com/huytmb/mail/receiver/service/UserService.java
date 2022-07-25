@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -22,6 +23,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -76,7 +78,7 @@ public class UserService {
 	   
 	   String mailContent = "<p>Dear: "+user.getUserName()+",</p> <br>";
 	   mailContent +=" Please click the Link below to verify  to your registration </p> ";
-	   String verifyUrl = siteUrl +"/verify?code=" +user.getVerificationcode();
+	    String verifyUrl = siteUrl +"/verify?code=" +user.getVerificationcode();
 	   mailContent +="<h3><a href=\""+verifyUrl+"\"> Verify</a> </h3>";
 	   mailContent +="<p> Thank you<br> TrituxGroup </p>";
 	   Message msg = new MimeMessage(session);
@@ -100,8 +102,17 @@ public class UserService {
 	   Transport.send(msg);	
 }
 
-public Page<User> getAllUsers(PageRequest pr){
+public Page<User> getAllUsers(PageRequest pr,String recherche){
+			if (recherche.equals(""))	
 	  return (Page<User>) ur.findAll(pr);
+			 List<User> users= ur.findAll().stream()
+				      .filter(user -> user.getUserName().contains(recherche) || user.getEmail().contains(recherche))
+				      .collect(Collectors.toList());
+			 int start = (int) pr.getOffset();
+			 int end = (int) ((start + pr.getPageSize()) > users.size() ? users.size()
+					   : (start + pr.getPageSize()));
+			 Page<User> alluserpage = new PageImpl<>(users.subList(start, end),pr,users.size());
+			 return alluserpage;
   }
   public Optional<User>  getUserById(int id){
 	  return ur.findById(id);

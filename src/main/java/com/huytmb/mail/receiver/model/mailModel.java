@@ -48,6 +48,9 @@ public class mailModel {
 		@ManyToOne(cascade =CascadeType.PERSIST)
 		private Traitement tr2;
 		
+		@ManyToOne(cascade =CascadeType.PERSIST)
+		private Traitement tr3;
+		
 		
 		
 	    @OneToMany(cascade=CascadeType.ALL,mappedBy="mailmodel",fetch=FetchType.EAGER)
