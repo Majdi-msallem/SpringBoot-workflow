@@ -158,18 +158,16 @@ public class ActivitiService {
 	}
 
 	
-//sending a task from tech to rh
+//sending a task from rh to tech
 	public User traitement2Mail(HttpServletRequest request, int idMail) {
 		User u = jwtu.getuserFromRequest(request);
 		String role = u.getRole().stream().findFirst().get().getRoleName();
-
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(role).list();
 		String taskid = null;
 		Integer a = null;
 		for (Task task : tasks) {
 			a = (Integer) runtimeService.getVariables(task.getExecutionId()).get("idMail");
 			System.out.println("aaaaaaaaaaaaaaaaaaaaaa" + a);
-
 			if (a == idMail)
 				System.out.println("task iddd traaaaitement 222ppppppp" + taskid);
 			taskid = task.getId();
@@ -180,11 +178,9 @@ public class ActivitiService {
 		variables.put("d_rh", "d_rh");
 		variables.put("idMail", idMail);
 	    variables.put("traitement2",true);
-
 		// }
 		// mailModel mail= mr.findById(idMail).orElse(null);
 		// mail.setStatus(Status.traiter);
-
 		taskService.complete(taskid,variables);
 		// System.out.println(taskid);
 		return u;
@@ -219,10 +215,8 @@ public class ActivitiService {
 			taskid = task.getId();
 		}
 		Map<String, Object> variables = new HashMap<String, Object>();
-		
 			variables.put("idMail", idMail);
 			variables.put("traitementfinal",true);
-		
 		taskService.complete(taskid,variables);
 		return u;
 	}

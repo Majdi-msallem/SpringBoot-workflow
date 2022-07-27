@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.catalina.startup.ClassLoaderFactory.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.huytmb.mail.receiver.model.User;
-import com.huytmb.mail.receiver.repository.UserRepositroy;
 import com.huytmb.mail.receiver.service.UserService;
 import com.huytmb.mail.receiver.util.JwtUtil;
 import com.huytmb.mail.receiver.util.Utility;
@@ -68,6 +65,14 @@ public class UserController {
 	    return ju.getuserFromRequest(request);
 	    }
 		
+		@GetMapping("/getuserName")
+		   @ResponseBody
+		    public String getuserName(HttpServletRequest request,String name) {
+		     
+		    return name= ju.getuserFromRequest(request).getUserName();
+		    }
+		
+		
 		@GetMapping("/getuserById/{id}")
 		   @ResponseBody
 		    public Optional<User> getuser (@PathVariable int id) {
@@ -75,7 +80,7 @@ public class UserController {
 		    }
 		@GetMapping("/getalluser")
 		   @ResponseBody
-		    public Page<User> getAllUser(@RequestParam int page,@RequestParam int size,@RequestParam String recherche ) {
+		    public Page<User> getAllUser(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche) {
 		  PageRequest pr=PageRequest.of(page, size);
 		  return us.getAllUsers(pr,recherche);
 		    }

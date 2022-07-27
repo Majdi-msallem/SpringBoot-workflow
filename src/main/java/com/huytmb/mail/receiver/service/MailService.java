@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -20,10 +21,14 @@ import javax.mail.internet.MimeMultipart;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.huytmb.mail.receiver.model.User;
 import com.huytmb.mail.receiver.model.mailModel;
 import com.huytmb.mail.receiver.repository.MailRepo;
 import com.huytmb.mail.receiver.repository.UserRepositroy;
@@ -48,8 +53,18 @@ public class MailService {
 	
 	
 	
-	public List<mailModel> getAllMail(){
-		return (List<mailModel>) mr.findAll();
+	public Page<mailModel> getAllMail(PageRequest pr,String recherche){
+		
+		if (recherche.equals(""))	
+			  return (Page<mailModel>) mr.findAll(pr);
+					 List<mailModel> mails= mr.findAll().stream()
+						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
+						      .collect(Collectors.toList());
+					 int start = (int) pr.getOffset();
+					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
+							   : (start + pr.getPageSize()));
+					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
+					 return allmailpage;
 	}
 	
 	public Optional<mailModel> getMailByID(int id){
@@ -88,6 +103,9 @@ public class MailService {
 	}
 	public List<mailModel> ListeDesEmailGenererTR1(String generatedby) {
 		return mr.MailGeneratedBy(generatedby);
+	}
+	public List<mailModel> MailsListeTR1ByUserName(String generatedby) {
+		return mr.MailTR1ByUserName(generatedby);
 	}
 	
 	public String sendmail() throws AddressException, MessagingException, IOException {

@@ -39,8 +39,10 @@ public class mailModel {
 	    private String contentType;
 	    private String cause;
 	    
+	    
 		@Enumerated(EnumType.STRING)
 	    private Status Status;
+		
 		
 		@ManyToOne(cascade =CascadeType.PERSIST)
 		private Traitement tr1;

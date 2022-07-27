@@ -7,9 +7,12 @@ import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +29,7 @@ import com.huytmb.mail.receiver.model.attachementsModel;
 import com.huytmb.mail.receiver.model.mailModel;
 import com.huytmb.mail.receiver.service.MailService;
 import com.huytmb.mail.receiver.service.ReceiveMailServiceImpl;
+import com.huytmb.mail.receiver.util.JwtUtil;
 @RestController
 public class MailController {
 	
@@ -32,6 +37,8 @@ public class MailController {
 	private MailService ms;
 	@Autowired
 	private ReceiveMailServiceImpl rms;
+	@Autowired
+	private JwtUtil ju;
 	
 	@GetMapping("/sendEmail")
 	public String sendEmail() throws AddressException, MessagingException, IOException{
@@ -41,9 +48,10 @@ public class MailController {
 	
 	@GetMapping("/getAllMail")
 	@ResponseBody
-	public List<mailModel> getalldemande()
+	public Page<mailModel> getalldemande(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche)
 	{
-	return ms.getAllMail() ;
+		 PageRequest pr=PageRequest.of(page, size);
+	return ms.getAllMail(pr,recherche) ;
 	}
 	
 	@GetMapping("/getMailById/{id}")
@@ -85,6 +93,8 @@ public class MailController {
 	
 	
 	
+	
+	
 	@GetMapping(value = "/src/{idMail}/{idAtt}", produces = MediaType.ALL_VALUE)
     ResponseEntity<FileSystemResource> downloadFile(@PathVariable("idMail") int idMail,@PathVariable("idAtt") int idAtt) {
 		attachementsModel attachment=rms.getAttachmentsByMailID(idMail, idAtt);
@@ -95,5 +105,11 @@ public class MailController {
                 .contentType(MediaType.valueOf("application/pdf")).body(new FileSystemResource(file));
     }
 	
+	@GetMapping("/listeMailsGeneratedByName")
+	@ResponseBody
+	public List<mailModel> listeMaylgenererPar(HttpServletRequest request, String generatedby) {
+		generatedby = ju.getuserFromRequest(request).getUserName();
+		return ms.MailsListeTR1ByUserName(generatedby);
+	}
 	
 }
