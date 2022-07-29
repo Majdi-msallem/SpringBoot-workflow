@@ -17,6 +17,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.huytmb.mail.receiver.model.Decision;
 import com.huytmb.mail.receiver.model.Etat;
 import com.huytmb.mail.receiver.model.Role;
 import com.huytmb.mail.receiver.model.Status;
@@ -73,8 +74,8 @@ public class ActivitiService {
 			tr1.setNote(note);
 			tr1.setEtat(etat);
 			trr.save(tr1);
-			mail.setTr1(tr1);
-				mr.save(mail);
+			mail.setTr1(tr1); 
+				mr.save(mail); 
 		} else {
 			variables.put("fs", 2);
 			variables.put("idMail", idMail);
@@ -197,7 +198,7 @@ public class ActivitiService {
 		tr2.setEtat(etat);
 		trr.save(tr2);
 		mail.setTr2(tr2);
-			mr.save(mail);
+		mr.save(mail);
 		return mail;
 	}
 	
@@ -217,11 +218,12 @@ public class ActivitiService {
 		Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("idMail", idMail);
 			variables.put("traitementfinal",true);
-		taskService.complete(taskid,variables);
+		  taskService.complete(taskid,variables);
 		return u;
 	}
 	public mailModel Trfinalmail(HttpServletRequest request, int idMail, String note, Etat etat) {
 		mailModel mail = mr.findById(idMail).orElse(null);
+		mail.setStatus(Status.traiter);
 		Traitement tr3 = new Traitement();
 		User u = traitement2Mail(request, idMail);
 		Role role = u.getRole().stream().findFirst().get();

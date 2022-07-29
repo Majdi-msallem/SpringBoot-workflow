@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -90,6 +91,12 @@ public class UserController {
 					
 		     return (List<User>) us.getAllUsersByroleName();
 		    }
+		
+		@PostMapping("/updateuser")
+		@ResponseBody
+		public ResponseEntity<?> updateuser (@RequestBody User u) {
+			return us.update(u);
+		}
 		
 	@GetMapping({"/admin"})
 	@PreAuthorize("hasRole('admin')")

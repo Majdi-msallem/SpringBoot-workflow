@@ -38,10 +38,14 @@ public class mailModel {
 	    private String cc;
 	    private String contentType;
 	    private String cause;
+	   
 	    
 	    
 		@Enumerated(EnumType.STRING)
 	    private Status Status;
+		
+		
+;
 		
 		
 		@ManyToOne(cascade =CascadeType.PERSIST)
@@ -175,6 +179,18 @@ public class mailModel {
 
 		public void setCause(String cause) {
 			this.cause = cause;
+		}
+
+
+
+		public Traitement getTr3() {
+			return tr3;
+		}
+
+
+
+		public void setTr3(Traitement tr3) {
+			this.tr3 = tr3;
 		}
 		
 	    

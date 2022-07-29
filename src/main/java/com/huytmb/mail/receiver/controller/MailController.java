@@ -51,7 +51,7 @@ public class MailController {
 	public Page<mailModel> getalldemande(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche)
 	{
 		 PageRequest pr=PageRequest.of(page, size);
-	return ms.getAllMail(pr,recherche) ;
+		 	return ms.getAllMail(pr,recherche) ;
 	}
 	
 	@GetMapping("/getMailById/{id}")
@@ -62,39 +62,37 @@ public class MailController {
 	
 	@GetMapping("/mailsencours")
 	@ResponseBody
-	public List<mailModel> MailsEncours() {
-		return ms.encours();
+	public Page<mailModel> MailsEncours(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche) {
+		 PageRequest pr=PageRequest.of(page, size);
+		return ms.encours(pr,recherche);
 	}
 	@GetMapping("/mailsnontraiter")
 	@ResponseBody
-	public List<mailModel> Mailsnontraiter() {
-		return ms.nontraiter();
+	public Page<mailModel> Mailsnontraiter(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche) {
+		 PageRequest pr=PageRequest.of(page, size);
+		return ms.nontraiter(pr,recherche);
 	}
 	@GetMapping("/mailstraiter")
 	@ResponseBody
-	public List<mailModel> Mailstraiter() {
-		return ms.traiter();
+	public Page<mailModel> Mailstraiter(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche) {
+		 PageRequest pr=PageRequest.of(page, size);
+		 return ms.traiter(pr,recherche);
 	}
 	@GetMapping("/tr1")
 	@ResponseBody
 	public List<mailModel> rhtr() {
-		return ms.tr1();
+		 return ms.tr1();
 	}
 	@GetMapping("/tr2")
 	@ResponseBody
 	public List<mailModel> techtr() {
-		return ms.tr2();
+		 return ms.tr2();
 	}
 	@GetMapping("/listeMails/{generatedby}")
 	@ResponseBody
 	public List<mailModel> listeMaylgenererPar(@PathVariable String generatedby) {
 		return ms.ListeDesEmailGenererTR1(generatedby);
 	}
-	
-	
-	
-	
-	
 	@GetMapping(value = "/src/{idMail}/{idAtt}", produces = MediaType.ALL_VALUE)
     ResponseEntity<FileSystemResource> downloadFile(@PathVariable("idMail") int idMail,@PathVariable("idAtt") int idAtt) {
 		attachementsModel attachment=rms.getAttachmentsByMailID(idMail, idAtt);

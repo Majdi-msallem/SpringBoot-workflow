@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -132,6 +133,18 @@ public Page<User> getAllUsers(PageRequest pr,String recherche){
   			return true;
   		}
   	}
+  	
+  	public ResponseEntity<?>  update(User u) {
+		User user=ur.findById(u.getId()).orElse(null);
+		user.setUserFName(u.getUserFName());
+		user.setUserLName(u.getUserLName());
+		user.setUserName(u.getUserName());
+		user.setEmail(u.getEmail());
+		user.setPassword(getEncodedPassword(u.getPassword()));
+		
+		User U =ur.save(user);
+		return ResponseEntity.ok(U) ;	
+	}
   
   /* public void initRolesAndUSer(){
 	  Role rhRole = new Role();

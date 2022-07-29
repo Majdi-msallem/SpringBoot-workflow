@@ -75,25 +75,42 @@ public class MailService {
 		Optional<mailModel> mail=getMailByID(idMail);		
 		return null;
 	}
-/*	public String sendEmai(){
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("testrh022@gmail.com");
-		message.setTo("majdi.msallem@esprit.tn");
-		message.setSubject("test");
-		message.setText("test");
-		
-		jms.send(message);
-		return "Mail send successsfullyyyyy";
+
+	public Page<mailModel> encours(PageRequest pr,String recherche) {
+		if (recherche.equals(""))	
+			  return (Page<mailModel>) mr.findAll(pr);
+					 List<mailModel> mails= mr.findAll().stream()
+						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
+						      .collect(Collectors.toList());
+					 int start = (int) pr.getOffset();
+					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
+							   : (start + pr.getPageSize()));
+					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
+					 return allmailpage;
 	}
-	*/
-	public List<mailModel> encours() {
-		return mr.encours();
+	public Page<mailModel> nontraiter(PageRequest pr,String recherche) {
+		if (recherche.equals(""))	
+			  return (Page<mailModel>) mr.findAll(pr);
+					 List<mailModel> mails= mr.findAll().stream()
+						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
+						      .collect(Collectors.toList());
+					 int start = (int) pr.getOffset();
+					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
+							   : (start + pr.getPageSize()));
+					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
+					 return allmailpage;
 	}
-	public List<mailModel> nontraiter() {
-		return mr.nontraiter();
-	}
-	public List<mailModel> traiter() {
-		return mr.traiter();
+	public Page<mailModel> traiter(PageRequest pr,String recherche) {
+		if (recherche.equals(""))	
+			  return (Page<mailModel>) mr.findAll(pr);
+					 List<mailModel> mails= mr.findAll().stream()
+						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
+						      .collect(Collectors.toList());
+					 int start = (int) pr.getOffset();
+					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
+							   : (start + pr.getPageSize()));
+					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
+					 return allmailpage;
 	}
 	public List<mailModel> tr1() {
 		return mr.tr1();
