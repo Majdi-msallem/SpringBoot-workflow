@@ -58,7 +58,7 @@ public class ActivitiService {
 	
 	
 	//First step start procees ROLE RH accept/reject
-	public void startProcess(int idMail, int fs,HttpServletRequest request,String note,Etat etat,String userName) {
+	public void startProcess(int idMail, int fs,HttpServletRequest request,String note,Etat etat,String userName,String meet) {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		User u = jwtu.getuserFromRequest(request);
 			
@@ -66,6 +66,7 @@ public class ActivitiService {
 			variables.put("fs", 1);
 			variables.put("tech",userName );
 			variables.put("idMail", idMail);
+			variables.put("meet", meet);
 			mailModel mail = mr.findById(idMail).orElse(null);
 			mail.setStatus(Status.encours);
 			  
@@ -79,6 +80,7 @@ public class ActivitiService {
 		} else {
 			variables.put("fs", 2);
 			variables.put("idMail", idMail);
+			variables.put(meet, "No meeting");
 			mailModel mail = mr.findById(idMail).orElse(null);
 			mail.setStatus(Status.traiter);
 			Traitement tr1 = new Traitement();
@@ -217,22 +219,31 @@ public class ActivitiService {
 		}
 		Map<String, Object> variables = new HashMap<String, Object>();
 			variables.put("idMail", idMail);
-			variables.put("traitementfinal",true);
 		  taskService.complete(taskid,variables);
 		return u;
 	}
-	public mailModel Trfinalmail(HttpServletRequest request, int idMail, String note, Etat etat) {
+	public mailModel Trfinalmail(HttpServletRequest request, int idMail,int ls, String note, Etat etat) {
 		mailModel mail = mr.findById(idMail).orElse(null);
+		Map<String, Object> variables = new HashMap<String, Object>();
+
+		if (ls == 1) {
+			variables.put("ls", 1);
+			variables.put("idMail", idMail);
+		}else{
+			variables.put("ls", 2);
+			variables.put("idMail", idMail);
+		}
 		mail.setStatus(Status.traiter);
 		Traitement tr3 = new Traitement();
-		User u = traitement2Mail(request, idMail);
+		User u = traitementfinal(request, idMail);
 		Role role = u.getRole().stream().findFirst().get();
 		tr3.setGeneratedby(u.getUserName());
 		tr3.setNote(note);
 		tr3.setEtat(etat);
 		trr.save(tr3);
-		mail.setTr2(tr3);
+		mail.setTr3(tr3);
 			mr.save(mail);
 		return mail;
-	}
+		}
+	
 }

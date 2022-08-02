@@ -50,13 +50,13 @@ public class testController {
 	}
 	//@Secured(value="rh")
 	@RolesAllowed("rh")
-	@GetMapping(value = "/start/{idMail}/{fs}/{note}/{etat}/{userName}")
+	@GetMapping(value = "/start/{idMail}/{fs}/{note}/{etat}/{userName}/{meet}")
 	@ResponseBody
 	public void startProcessInstance(@PathVariable int idMail,@PathVariable int fs, HttpServletRequest request,
-			@PathVariable String note,@PathVariable Etat etat,@PathVariable String userName) {
-		 acts.startProcess(idMail,fs,request,note,etat,userName);
+			@PathVariable String note,@PathVariable Etat etat,@PathVariable String userName,@PathVariable String meet) {
+		 acts.startProcess(idMail,fs,request,note,etat,userName,meet);
 	}
-	
+	 
 	@GetMapping("/getAllMailByRole")
 	@ResponseBody
 	public List<mailModel>  getAll_demande1Byrole (HttpServletRequest request)
@@ -78,4 +78,13 @@ public class testController {
 		
      return acts.Tr2mail(request, idMail, note, etat);
 	} 
+	
+	@GetMapping("/tr3/{idMail}/{ls}/{note}/{etat}")
+	@ResponseBody
+	public mailModel trait3 (HttpServletRequest request,@PathVariable int idMail,@PathVariable int ls,@PathVariable String note,@PathVariable Etat etat)
+	{
+		
+     return acts.Trfinalmail(request, idMail, ls, note, etat);
+	} 
+	  
 }

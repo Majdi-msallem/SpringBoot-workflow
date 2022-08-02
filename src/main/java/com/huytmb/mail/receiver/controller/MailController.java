@@ -80,18 +80,23 @@ public class MailController {
 	}
 	@GetMapping("/tr1")
 	@ResponseBody
-	public List<mailModel> rhtr() {
-		 return ms.tr1();
+	public Page<mailModel> rhtr(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche) {
+		 PageRequest pr=PageRequest.of(page, size);
+		 	return ms.tr1(pr,recherche);
 	}
 	@GetMapping("/tr2")
 	@ResponseBody
-	public List<mailModel> techtr() {
-		 return ms.tr2();
+	public Page<mailModel> techtr(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche) {
+		 PageRequest pr=PageRequest.of(page, size);
+		 	return ms.tr2(pr,recherche);
 	}
+	
+	/*  */
 	@GetMapping("/listeMails/{generatedby}")
 	@ResponseBody
-	public List<mailModel> listeMaylgenererPar(@PathVariable String generatedby) {
-		return ms.ListeDesEmailGenererTR1(generatedby);
+	public Page<mailModel> listeMaylgenererPar(@PathVariable String generatedby,HttpServletRequest request,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche) {
+		 PageRequest pr=PageRequest.of(page, size);
+		return ms.ListeDesEmailGenererTR1(generatedby,pr,recherche);
 	}
 	@GetMapping(value = "/src/{idMail}/{idAtt}", produces = MediaType.ALL_VALUE)
     ResponseEntity<FileSystemResource> downloadFile(@PathVariable("idMail") int idMail,@PathVariable("idAtt") int idAtt) {
@@ -105,9 +110,10 @@ public class MailController {
 	
 	@GetMapping("/listeMailsGeneratedByName")
 	@ResponseBody
-	public List<mailModel> listeMaylgenererPar(HttpServletRequest request, String generatedby) {
+	public Page<mailModel> listeMaylgenererPar(HttpServletRequest request, String generatedby,@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,@RequestParam(required = false)String recherche) {
 		generatedby = ju.getuserFromRequest(request).getUserName();
-		return ms.MailsListeTR1ByUserName(generatedby);
+		 PageRequest pr=PageRequest.of(page, size);
+		return ms.MailsListeTR1ByUserName(generatedby,pr,recherche);
 	}
 	
 }

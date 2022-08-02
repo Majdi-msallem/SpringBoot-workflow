@@ -38,7 +38,7 @@ public class mailModel {
 	    private String cc;
 	    private String contentType;
 	    private String cause;
-	   
+	   private String meet;
 	    
 	    
 		@Enumerated(EnumType.STRING)
@@ -191,6 +191,18 @@ public class mailModel {
 
 		public void setTr3(Traitement tr3) {
 			this.tr3 = tr3;
+		}
+
+
+
+		public String getMeet() {
+			return meet;
+		}
+
+
+
+		public void setMeet(String meet) {
+			this.meet = meet;
 		}
 		
 	    

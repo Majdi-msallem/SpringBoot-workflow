@@ -112,17 +112,53 @@ public class MailService {
 					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
 					 return allmailpage;
 	}
-	public List<mailModel> tr1() {
-		return mr.tr1();
+	public Page<mailModel> tr1(PageRequest pr,String recherche) {
+		if (recherche.equals(""))	
+			return mr.tr1(pr);
+		List<mailModel> mails= mr.findAll().stream()
+						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
+						      .collect(Collectors.toList());
+					 int start = (int) pr.getOffset();
+					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
+							   : (start + pr.getPageSize()));
+					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
+					 return allmailpage;
 	}
-	public List<mailModel> tr2() {
-		return mr.tr2();
+	public Page<mailModel> tr2(PageRequest pr,String recherche) {
+		if (recherche.equals(""))	
+			return mr.tr2(pr);
+		List<mailModel> mails= mr.findAll().stream()
+						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
+						      .collect(Collectors.toList());
+					 int start = (int) pr.getOffset();
+					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
+							   : (start + pr.getPageSize()));
+					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
+					 return allmailpage;	
+					 }
+	public Page<mailModel> ListeDesEmailGenererTR1(String generatedby,PageRequest pr,String recherche) {
+		if (recherche.equals(""))	
+			return mr.MailGeneratedBy(generatedby,pr);
+					 List<mailModel> mails= mr.findAll().stream()
+						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
+						      .collect(Collectors.toList());
+					 int start = (int) pr.getOffset();
+					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
+							   : (start + pr.getPageSize()));
+					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
+					 return allmailpage;
 	}
-	public List<mailModel> ListeDesEmailGenererTR1(String generatedby) {
-		return mr.MailGeneratedBy(generatedby);
-	}
-	public List<mailModel> MailsListeTR1ByUserName(String generatedby) {
-		return mr.MailTR1ByUserName(generatedby);
+	public Page<mailModel> MailsListeTR1ByUserName(String generatedby,PageRequest pr,String recherche) {
+		if (recherche.equals(""))	
+			return mr.MailTR1ByUserName(generatedby,pr);
+					 List<mailModel> mails= mr.findAll().stream()
+						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
+						      .collect(Collectors.toList());
+					 int start = (int) pr.getOffset();
+					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
+							   : (start + pr.getPageSize()));
+					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
+					 return allmailpage;
 	}
 	
 	public String sendmail() throws AddressException, MessagingException, IOException {
