@@ -16,21 +16,17 @@ import com.huytmb.mail.receiver.model.mailModel;
 @Repository
 public interface MailRepo extends JpaRepository<mailModel, Integer> {
 	    @Query("SELECT m FROM mailModel m WHERE m.Status = 'encours'")
-        List<mailModel> encours();  
+        Page<mailModel> encours(PageRequest pr);  
         @Query("SELECT m FROM mailModel m WHERE m.tr1 != null ")
         Page<mailModel> tr1(PageRequest pr); 
         @Query("SELECT m FROM mailModel m WHERE m.tr2 != null ")
         Page<mailModel> tr2(PageRequest pr); 
-         
         @Query("SELECT m FROM mailModel m WHERE m.Status = 'nontraiter'")
-        List<mailModel> nontraiter();  
-        
+        Page<mailModel> nontraiter(PageRequest pr);         
         @Query("SELECT m FROM mailModel m WHERE m.Status = 'traiter'")
-        List<mailModel> traiter();  
-        
+        Page<mailModel> traiter(PageRequest pr);          
         @Query("SELECT m FROM mailModel m WHERE m.tr2.generatedby = ?1")
-        Page<mailModel> MailGeneratedBy( String generatedby,PageRequest pr);
-        
+        Page<mailModel> MailGeneratedBy( String generatedby,PageRequest pr);        
         @Query("SELECT m FROM mailModel m WHERE m.tr1.generatedby = ?1")
         Page<mailModel> MailTR1ByUserName( String generatedby,PageRequest pr);
 }

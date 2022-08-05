@@ -78,7 +78,7 @@ public class MailService {
 
 	public Page<mailModel> encours(PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
-			  return (Page<mailModel>) mr.findAll(pr);
+			  return (Page<mailModel>) mr.encours(pr);
 					 List<mailModel> mails= mr.findAll().stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
@@ -90,7 +90,7 @@ public class MailService {
 	}
 	public Page<mailModel> nontraiter(PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
-			  return (Page<mailModel>) mr.findAll(pr);
+			  return (Page<mailModel>) mr.nontraiter(pr);
 					 List<mailModel> mails= mr.findAll().stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
@@ -102,7 +102,7 @@ public class MailService {
 	}
 	public Page<mailModel> traiter(PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
-			  return (Page<mailModel>) mr.findAll(pr);
+			  return (Page<mailModel>) mr.traiter(pr);
 					 List<mailModel> mails= mr.findAll().stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());

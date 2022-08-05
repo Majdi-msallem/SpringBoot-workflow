@@ -161,7 +161,7 @@ public class ActivitiService {
 	}
 
 	
-//sending a task from rh to tech
+//sending a task from tech to drh
 	public User traitement2Mail(HttpServletRequest request, int idMail) {
 		User u = jwtu.getuserFromRequest(request);
 		String role = u.getRole().stream().findFirst().get().getRoleName();
@@ -180,7 +180,7 @@ public class ActivitiService {
 		// if(role=="tech"){
 		variables.put("d_rh", "d_rh");
 		variables.put("idMail", idMail);
-	    variables.put("traitement2",true);
+	   // variables.put("traitement2",true);
 		// }
 		// mailModel mail= mr.findById(idMail).orElse(null);
 		// mail.setStatus(Status.traiter);

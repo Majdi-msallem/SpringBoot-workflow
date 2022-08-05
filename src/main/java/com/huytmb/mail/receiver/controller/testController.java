@@ -47,11 +47,11 @@ public class testController {
 	// Verify that we started a new process instance
 	return repositoryService.createProcessDefinitionQuery().count();
           
-	}
+	}  
 	//@Secured(value="rh")
 	@RolesAllowed("rh")
 	@GetMapping(value = "/start/{idMail}/{fs}/{note}/{etat}/{userName}/{meet}")
-	@ResponseBody
+	@ResponseBody 
 	public void startProcessInstance(@PathVariable int idMail,@PathVariable int fs, HttpServletRequest request,
 			@PathVariable String note,@PathVariable Etat etat,@PathVariable String userName,@PathVariable String meet) {
 		 acts.startProcess(idMail,fs,request,note,etat,userName,meet);
@@ -60,7 +60,7 @@ public class testController {
 	@GetMapping("/getAllMailByRole")
 	@ResponseBody
 	public List<mailModel>  getAll_demande1Byrole (HttpServletRequest request)
-	{
+	{ 
     return acts.getMailTraitement(request);
     
 	}
@@ -82,8 +82,7 @@ public class testController {
 	@GetMapping("/tr3/{idMail}/{ls}/{note}/{etat}")
 	@ResponseBody
 	public mailModel trait3 (HttpServletRequest request,@PathVariable int idMail,@PathVariable int ls,@PathVariable String note,@PathVariable Etat etat)
-	{
-		
+	{	
      return acts.Trfinalmail(request, idMail, ls, note, etat);
 	} 
 	  

@@ -47,8 +47,13 @@ public class MailRejectionService {
 			System.out.println("adrees email pour envoyer"+mail);
 
 		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getSenderAddress()));
-		   msg.setSubject("refuser demande");
-		   msg.setContent("refuser malheuresement", "text/html");
+		   msg.setSubject("Condidature refusée");
+		   msg.setContent("Bonjour ,Nous avons bien reçu votre candidature"
+		   		+ " nous létudions avec attention et revenons vers vous dans les plus brefs délais.Par ailleurs,"
+		   		+ " dans l'hypothèse où nous ne retiendrions pas votre candidature, nous vous proposons de conserver votre CV pendant 2 an(s) dans notre CVthèque "
+		   		+ "afin de vous recontacter si nous ouvrons un poste "
+		   		+ "correspondant à votre profil. Si vous ne le souhaitez pas, vous pouvez nous en informer par retour d'email."
+		   		+ "A très bientôt", "text/html");
 		   msg.setSentDate(new Date()); 
 
 		  /* MimeBodyPart messageBodyPart = new MimeBodyPart();
@@ -85,8 +90,14 @@ public class MailRejectionService {
 			System.out.println("adrees email pour envoyer"+mail);
 
 		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail.getSenderAddress()));
-		   msg.setSubject("accpter demande rh");
-		   msg.setContent("accepter  et entretien  "+execution.getVariable("meet"), "text/html");
+		   msg.setSubject("condidature acceptée ");
+		   msg.setContent("Votre candidature a retenu notre attention.<br>Dans le cadre de notre processus de recrutement, <br>nous avons le plaisir de vous inviter à passer une évaluation technique.  "
+				   +"<h3><a href=\""+execution.getVariable("meet")+"\"> Meet</a> </h3>"
+				   		+ "Bonne chance !<br>"
+				   		+ "Cordialement"
+				   		+"<h1>TrituxGroup </h1>"
+				   
+				   , "text/html");
 		   
 		   msg.setSentDate(new Date());
 		   Transport.send(msg);

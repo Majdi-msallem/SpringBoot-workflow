@@ -145,7 +145,24 @@ public Page<User> getAllUsers(PageRequest pr,String recherche){
 		User U =ur.save(user);
 		return ResponseEntity.ok(U) ;	
 	}
-  
+  	
+  	/*public void initRolesAndUSer(){
+  		Role drhRole = new Role();
+  	  drhRole.setRoleName("d_rh");
+  	  drhRole.setRoleDescription("d_rh role");
+  	  rr.save(drhRole);
+  	  
+  	 User adminUser = new User();
+	  adminUser.setUserFName("directeur");
+	  adminUser.setUserLName("rh");
+	  adminUser.setUserName("drh");
+	  adminUser.setEmail("drh@gmail.com");
+	  adminUser.setPassword(getEncodedPassword("drh123"));
+	  Set<Role> adminRoles = new HashSet<>();
+	  adminRoles.add(drhRole);
+	  adminUser.setRole(adminRoles);
+	  ur.save(adminUser);
+  	}*/
   /* public void initRolesAndUSer(){
 	  Role rhRole = new Role();
 	  rhRole.setRoleName("rh");

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ import com.huytmb.mail.receiver.service.UserService;
 import com.huytmb.mail.receiver.util.JwtUtil;
 import com.huytmb.mail.receiver.util.Utility;
 
-@RestController
+@RestController 
 public class UserController {
 	@Autowired
 	private UserService us;

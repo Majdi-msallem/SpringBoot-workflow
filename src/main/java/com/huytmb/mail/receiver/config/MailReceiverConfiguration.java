@@ -52,8 +52,8 @@ public class MailReceiverConfiguration {
         MailReceivingMessageSource mailReceivingMessageSource = new MailReceivingMessageSource(mailReceiver);
         return mailReceivingMessageSource;
     }
-
-    @Bean
+  
+    @Bean 
     public MailReceiver imapMailReceiver(@Value("imaps://${mail.imap.username}:${mail.imap.password}@${mail.imap.host}:${mail.imap.port}/inbox") String storeUrl) {
         log.info("IMAP connection url: {}", storeUrl);
 
