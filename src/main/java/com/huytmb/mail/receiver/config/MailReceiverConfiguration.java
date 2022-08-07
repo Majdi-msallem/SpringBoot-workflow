@@ -46,12 +46,12 @@ public class MailReceiverConfiguration {
     @Bean()
     @InboundChannelAdapter(
             channel = "receiveEmailChannel",
-            poller = @Poller(fixedDelay = "1000000", taskExecutor = "asyncTaskExecutor")  
+            poller = @Poller(fixedDelay = "20000", taskExecutor = "asyncTaskExecutor")  
     )
     public MailReceivingMessageSource mailMessageSource(MailReceiver mailReceiver) {
         MailReceivingMessageSource mailReceivingMessageSource = new MailReceivingMessageSource(mailReceiver);
         return mailReceivingMessageSource;
-    }
+    } 
   
     @Bean 
     public MailReceiver imapMailReceiver(@Value("imaps://${mail.imap.username}:${mail.imap.password}@${mail.imap.host}:${mail.imap.port}/inbox") String storeUrl) {

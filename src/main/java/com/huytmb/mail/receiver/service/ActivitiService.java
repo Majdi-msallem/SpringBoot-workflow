@@ -119,7 +119,6 @@ public class ActivitiService {
 	
 	public List<mailModel> getMailTrByName(HttpServletRequest request) {
 		List<mailModel> mail = new ArrayList<>();
-
 		List<Integer> idMail = getAllTaskByuserName(request);
 		System.out.println(idMail);
 		if (idMail.size() > 0) {
@@ -130,9 +129,9 @@ public class ActivitiService {
 		return mail;
 	}
 	
-	
-	
-
+	 
+	 
+ 
 	//get liste Tasks of mail By RoleConnected 
 	public List<Integer> getAllTask(HttpServletRequest request) {
 		User u = jwtu.getuserFromRequest(request);
@@ -164,8 +163,8 @@ public class ActivitiService {
 //sending a task from tech to drh
 	public User traitement2Mail(HttpServletRequest request, int idMail) {
 		User u = jwtu.getuserFromRequest(request);
-		String role = u.getRole().stream().findFirst().get().getRoleName();
-		List<Task> tasks = taskService.createTaskQuery().taskAssignee(role).list();
+		String name=u.getUserName();
+		List<Task> tasks = taskService.createTaskQuery().taskAssignee(name).list();
 		String taskid = null;
 		Integer a = null;
 		for (Task task : tasks) {
@@ -174,18 +173,11 @@ public class ActivitiService {
 			if (a == idMail)
 				System.out.println("task iddd traaaaitement 222ppppppp" + taskid);
 			taskid = task.getId();
-			// System.out.println(runtimeService.getVariables(task.getExecutionId()).get("idMail"));
 		}
 		Map<String, Object> variables = new HashMap<String, Object>();
-		// if(role=="tech"){
 		variables.put("d_rh", "d_rh");
 		variables.put("idMail", idMail);
-	   // variables.put("traitement2",true);
-		// }
-		// mailModel mail= mr.findById(idMail).orElse(null);
-		// mail.setStatus(Status.traiter);
 		taskService.complete(taskid,variables);
-		// System.out.println(taskid);
 		return u;
 	}
 
@@ -193,8 +185,6 @@ public class ActivitiService {
 		mailModel mail = mr.findById(idMail).orElse(null);
 		Traitement tr2 = new Traitement();
 		User u = traitement2Mail(request, idMail);
-		Role role = u.getRole().stream().findFirst().get();
-
 		tr2.setGeneratedby(u.getUserName());
 		tr2.setNote(note);
 		tr2.setEtat(etat);
@@ -208,7 +198,7 @@ public class ActivitiService {
 	public User traitementfinal(HttpServletRequest request, int idMail) {
 		User u = jwtu.getuserFromRequest(request);
 		String role = u.getRole().stream().findFirst().get().getRoleName();
-
+		//String name =u.getUserName();
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(role).list();
 		String taskid = null;
 		Integer a = null;
@@ -225,25 +215,33 @@ public class ActivitiService {
 	public mailModel Trfinalmail(HttpServletRequest request, int idMail,int ls, String note, Etat etat) {
 		mailModel mail = mr.findById(idMail).orElse(null);
 		Map<String, Object> variables = new HashMap<String, Object>();
+		User u = jwtu.getuserFromRequest(request);
 
 		if (ls == 1) {
 			variables.put("ls", 1);
 			variables.put("idMail", idMail);
+			mail.setStatus(Status.traiter);
+			Traitement tr3 = new Traitement();
+			tr3.setGeneratedby(u.getUserName());
+			tr3.setNote(note);
+			tr3.setEtat(etat);
+			trr.save(tr3);
+			mail.setTr3(tr3);
+				mr.save(mail);
 		}else{
 			variables.put("ls", 2);
 			variables.put("idMail", idMail);
+			mail.setStatus(Status.traiter);
+			Traitement tr3 = new Traitement();
+			tr3.setGeneratedby(u.getUserName());
+			tr3.setNote(note);
+			tr3.setEtat(etat);
+			trr.save(tr3);
+			mail.setTr3(tr3);
+				mr.save(mail);
 		}
-		mail.setStatus(Status.traiter);
-		Traitement tr3 = new Traitement();
-		User u = traitementfinal(request, idMail);
-		Role role = u.getRole().stream().findFirst().get();
-		tr3.setGeneratedby(u.getUserName());
-		tr3.setNote(note);
-		tr3.setEtat(etat);
-		trr.save(tr3);
-		mail.setTr3(tr3);
-			mr.save(mail);
 		return mail;
-		}
+		
+	}
 	
 }

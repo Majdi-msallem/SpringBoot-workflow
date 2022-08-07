@@ -48,6 +48,9 @@ public class UserService {
 	@Autowired
 	private PasswordEncoder pe;
 	
+	public void  deleteUser(int id){
+		this.ur.deleteById(id);
+	}
   public User register(User  user) {
 	  List<Integer> idrole= new ArrayList<Integer>(); 
 	  for (Role role : user.getRole()) {

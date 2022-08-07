@@ -50,7 +50,7 @@ public class MailService {
 	private UserRepositroy ur;
 	/*@Autowired 
 	JavaMailSender jms;*/
-	
+	 
 	
 	
 	public Page<mailModel> getAllMail(PageRequest pr,String recherche){
@@ -59,7 +59,7 @@ public class MailService {
 			  return (Page<mailModel>) mr.findAll(pr);
 					 List<mailModel> mails= mr.findAll().stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
-						      .collect(Collectors.toList());
+						      .collect(Collectors.toList());;
 					 int start = (int) pr.getOffset();
 					 int end = (int) ((start + pr.getPageSize()) > mails.size() ? mails.size()
 							   : (start + pr.getPageSize()));
@@ -79,7 +79,7 @@ public class MailService {
 	public Page<mailModel> encours(PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
 			  return (Page<mailModel>) mr.encours(pr);
-					 List<mailModel> mails= mr.findAll().stream()
+					 List<mailModel> mails= mr.encours(pr).stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
 					 int start = (int) pr.getOffset();
@@ -91,7 +91,7 @@ public class MailService {
 	public Page<mailModel> nontraiter(PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
 			  return (Page<mailModel>) mr.nontraiter(pr);
-					 List<mailModel> mails= mr.findAll().stream()
+					 List<mailModel> mails= mr.nontraiter(pr).stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
 					 int start = (int) pr.getOffset();
@@ -103,7 +103,7 @@ public class MailService {
 	public Page<mailModel> traiter(PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
 			  return (Page<mailModel>) mr.traiter(pr);
-					 List<mailModel> mails= mr.findAll().stream()
+					 List<mailModel> mails= mr.traiter(pr).stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
 					 int start = (int) pr.getOffset();
@@ -115,7 +115,7 @@ public class MailService {
 	public Page<mailModel> tr1(PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
 			return mr.tr1(pr);
-		List<mailModel> mails= mr.findAll().stream()
+		List<mailModel> mails= mr.tr1(pr).stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
 					 int start = (int) pr.getOffset();
@@ -127,7 +127,7 @@ public class MailService {
 	public Page<mailModel> tr2(PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
 			return mr.tr2(pr);
-		List<mailModel> mails= mr.findAll().stream()
+		List<mailModel> mails= mr.tr2(pr).stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
 					 int start = (int) pr.getOffset();
@@ -136,10 +136,10 @@ public class MailService {
 					 Page<mailModel> allmailpage = new PageImpl<>(mails.subList(start, end),pr,mails.size());
 					 return allmailpage;	
 					 }
-	public Page<mailModel> ListeDesEmailGenererTR1(String generatedby,PageRequest pr,String recherche) {
+	public Page<mailModel> ListeDesEmailGenererTR2(String generatedby,PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
 			return mr.MailGeneratedBy(generatedby,pr);
-					 List<mailModel> mails= mr.findAll().stream()
+					 List<mailModel> mails= mr.MailGeneratedBy(generatedby,pr).stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
 					 int start = (int) pr.getOffset();
@@ -151,7 +151,7 @@ public class MailService {
 	public Page<mailModel> MailsListeTR1ByUserName(String generatedby,PageRequest pr,String recherche) {
 		if (recherche.equals(""))	
 			return mr.MailTR1ByUserName(generatedby,pr);
-					 List<mailModel> mails= mr.findAll().stream()
+					 List<mailModel> mails= mr.MailTR1ByUserName(generatedby,pr).stream()
 						      .filter(mail -> mail.getSenderAddress().contains(recherche) || mail.getSubject().contains(recherche))
 						      .collect(Collectors.toList());
 					 int start = (int) pr.getOffset();
