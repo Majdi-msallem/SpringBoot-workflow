@@ -149,7 +149,7 @@ public Page<User> getAllUsers(PageRequest pr,String recherche){
 		return ResponseEntity.ok(U) ;	
 	}
   	
-  	/*public void initRolesAndUSer(){
+  	/* public void initRolesAndUSer(){
   		Role drhRole = new Role();
   	  drhRole.setRoleName("d_rh");
   	  drhRole.setRoleDescription("d_rh role");

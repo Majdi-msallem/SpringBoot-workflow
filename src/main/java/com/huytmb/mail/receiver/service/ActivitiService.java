@@ -1,5 +1,6 @@
 package com.huytmb.mail.receiver.service;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +68,8 @@ public class ActivitiService {
 			variables.put("tech",userName );
 			variables.put("idMail", idMail);
 			variables.put("meet", meet);
+		
+
 			mailModel mail = mr.findById(idMail).orElse(null);
 			mail.setStatus(Status.encours);
 			  
@@ -90,8 +93,6 @@ public class ActivitiService {
 			trr.save(tr1);
 			mail.setTr1(tr1);
 				mr.save(mail);
-			//mail.setCause(cause);
-
 		}
 		repositoryService.createDeployment().addClasspathResource("processes/diagram.bpmn").deploy();
 
@@ -133,7 +134,7 @@ public class ActivitiService {
 	 
  
 	//get liste Tasks of mail By RoleConnected 
-	public List<Integer> getAllTask(HttpServletRequest request) {
+	public List<Integer> getAllTaskByRole(HttpServletRequest request) {
 		User u = jwtu.getuserFromRequest(request);
 		String role = u.getRole().stream().findFirst().get().getRoleName();
 		List<Task> tasks = taskService.createTaskQuery().taskAssignee(role).list();
@@ -149,7 +150,7 @@ public class ActivitiService {
 		
 	public List<mailModel> getMailTraitement(HttpServletRequest request) {
 		List<mailModel> mail = new ArrayList<>();
-		List<Integer> idMail = getAllTask(request);
+		List<Integer> idMail = getAllTaskByRole(request);
 		System.out.println(idMail);
 		if (idMail.size() > 0) {
 			for (Integer integer : idMail) {
@@ -193,7 +194,7 @@ public class ActivitiService {
 		mr.save(mail);
 		return mail;
 	}
-	
+	  
 	//traitement final 
 	public User traitementfinal(HttpServletRequest request, int idMail) {
 		User u = jwtu.getuserFromRequest(request);
