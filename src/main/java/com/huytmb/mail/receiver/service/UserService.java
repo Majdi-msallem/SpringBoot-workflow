@@ -143,8 +143,6 @@ public Page<User> getAllUsers(PageRequest pr,String recherche){
 		user.setUserLName(u.getUserLName());
 		user.setUserName(u.getUserName());
 		user.setEmail(u.getEmail());
-		user.setPassword(getEncodedPassword(u.getPassword()));
-		
 		User U =ur.save(user);
 		return ResponseEntity.ok(U) ;	
 	}

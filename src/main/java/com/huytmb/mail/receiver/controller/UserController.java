@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -99,7 +100,7 @@ public class UserController {
 		     return (List<User>) us.getAllUsersByroleName();
 		    }
 		
-		@PostMapping("/updateuser")
+		@PutMapping("/updateuser")
 		@ResponseBody
 		public ResponseEntity<?> updateuser (@RequestBody User u) {
 			return us.update(u);
