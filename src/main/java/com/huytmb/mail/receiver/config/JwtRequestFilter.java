@@ -37,6 +37,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	
 	String jwtToken =null;
 	String userName = null;
+	try{
+		
+	
 	if (header != null && header.startsWith("Bearer ")){
 		jwtToken = header.substring(7);
 		
@@ -65,6 +68,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			}
 	}
 	 filterChain.doFilter(request, response);
+	}catch(ExpiredJwtException eje) {
+   	 //log.info("Security exception for user {} - {}",
+   	 //eje.getClaims().getSubject(), eje.getMessage());
+   	 //log.trace("Security exception trace: {}", eje);
+   	 ((HttpServletResponse) response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    }
 	}
-
 }
