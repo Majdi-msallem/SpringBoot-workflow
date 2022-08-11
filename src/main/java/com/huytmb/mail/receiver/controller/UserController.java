@@ -59,7 +59,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/verify")
-	public String VerifyAccount(@Param("code")String code){
+	public String VerifyAccount(@RequestParam("code")String code){
 		boolean verified = us.Verify(code);
 		
 				String pageTitle = verified ? "verification succeeded" : "verification failed";
