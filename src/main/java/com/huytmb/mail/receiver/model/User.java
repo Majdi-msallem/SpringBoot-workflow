@@ -33,6 +33,7 @@ public class User {
 	private String Password;
 	private boolean enabled;
 	private String verificationcode;
+	private String resetPasswordToken;
 	
 	
 	
@@ -131,6 +132,18 @@ public class User {
 		this.verificationcode = verificationcode;
 	}
 
+
+	public String getResetPasswordToken() {
+		return resetPasswordToken;
+	}
+
+
+	public void setResetPasswordToken(String resetPasswordToken) {
+		this.resetPasswordToken = resetPasswordToken;
+	}
+
+
+	
 
 	
 	

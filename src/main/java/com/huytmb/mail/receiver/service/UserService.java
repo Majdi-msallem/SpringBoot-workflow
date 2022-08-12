@@ -26,6 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -212,8 +213,35 @@ public Page<User> getAllUsers(PageRequest pr,String recherche){
   public String getEncodedPassword(String password){
 	  return pe.encode(password);
   }
+   
+  
+  public User getUserByEmail (String email){
+	  return ur.findByEmail(email);
+  }
+  public void updateResetPassword (String token , String email) throws UserEmailNotFoundException{
+	  User user = ur.findByEmail(email);
+	  
+	  if (user!=null){
+		  user.setResetPasswordToken(token);
+		  ur.save(user);
+	  }else{
+		  throw new UserEmailNotFoundException("could not find any user with email"+email);
+	  }
+  }
 
-
-
-
+  	public User get (String resetPasswordToken){
+  		return ur.findByResetPasswordToken(resetPasswordToken);
+  	}
+  	
+  	public void updatePassword (User user,String newPassword){
+  		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  		String encodedPassword = passwordEncoder.encode(newPassword);
+  		
+  		user.setPassword(encodedPassword);
+  		user.setResetPasswordToken(null);
+  		
+  		ur.save(user);
+  	}
+  
+  
 }
