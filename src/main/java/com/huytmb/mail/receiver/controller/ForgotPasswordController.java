@@ -34,8 +34,8 @@ public class ForgotPasswordController {
 
 	
 	
-	@PostMapping ("/forgotpassword")
-	public String processForgetPassword(HttpServletRequest request,Model model){
+	@GetMapping ("/forgetpassword")
+	public void processForgetPassword(HttpServletRequest request,Model model){
 		String email =request.getParameter("email");
 		String token = RandomString.make(45);
 		try{
@@ -57,7 +57,6 @@ public class ForgotPasswordController {
 		
 		//System.out.println("Email:::"+email);
 		//System.out.println("tok:::"+token);
-		return "forgot password ";
 	}
 		
 	
@@ -95,5 +94,5 @@ public class ForgotPasswordController {
 	
 		}
 		
-		
+		 
 }

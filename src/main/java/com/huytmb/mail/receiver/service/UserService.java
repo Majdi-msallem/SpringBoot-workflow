@@ -85,7 +85,7 @@ public class UserService {
 	   mailContent +=" Please click the Link below to verify  to your registration </p> ";
 	    String verifyUrl = siteUrl +"/verify?code=" +user.getVerificationcode();
 	   //mailContent +="<h3><a href=\""+verifyUrl+"\"> Verify</a> </h3>";
-	  String  lien = ("http:"+"//"+"127.0.0.1:4200/verify?code="+user.getVerificationcode());
+	  String  lien = ("http:"+"//"+"127.0.0.1:4200/auth/verify?code="+user.getVerificationcode());
 	  mailContent +="<h3><a href=\""+lien+"\"> Verify</a> </h3>";
 	   mailContent +="<p> Thank you<br> TrituxGroup </p>";
 	   Message msg = new MimeMessage(session);
