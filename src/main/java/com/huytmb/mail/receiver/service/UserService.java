@@ -243,5 +243,35 @@ public Page<User> getAllUsers(PageRequest pr,String recherche){
   		ur.save(user);
   	}
   
+  	 public void sendResetPasswordnEmail(String email,String  resetPasswordLink)throws AddressException, MessagingException, IOException{
+  		  Properties props = new Properties();
+  		   props.put("mail.smtp.auth", "true");
+  		   props.put("mail.smtp.starttls.enable", "true");
+  		   props.put("mail.smtp.host", "smtp.gmail.com");
+  		   props.put("mail.smtp.port", "587");
+  		   
+  		   Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+  		      protected PasswordAuthentication getPasswordAuthentication() {
+  		         return new PasswordAuthentication("testrh022@gmail.com", "ztygkzhlotfhfhae");
+  		      }
+  		   });
+  		   
+  		   String mailContent = "<p>Hello</p> <br>";
+  		   mailContent +=" You have requested to reset your password </p> "
+  				   	   +"<p> Click the link below to change your password </p>"
+  				       + "<p> <b> <a href =\"" + resetPasswordLink + "\">  Change my Password</a> </b> </p>"
+  				       + " <p> Ignore this email if you do remember your password ,or you have not made the request. </p>";  		   
+  		 // String  lien = ("http:"+"//"+"127.0.0.1:4200/verify?code="+user.getVerificationcode());
+  		 // mailContent +="<h3><a href=\""+lien+"\"> Verify</a> </h3>";
+  		   mailContent +="<p> Thank you<br> TrituxGroup </p>";
+  		   Message msg = new MimeMessage(session);
+  		   msg.setFrom(new InternetAddress("testrh022@gmail.com", "TrituxGroup"));
+
+  		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+  		   msg.setSubject("here's the link to reset your password");
+  		   msg.setContent(mailContent,"text/html");
+  				 
+  		   Transport.send(msg);	
+  	}
   
 }

@@ -80,6 +80,13 @@ public class UserController {
 		     
 		    return name= ju.getuserFromRequest(request).getUserName();
 		    }
+		@GetMapping("/getUserByEmail")
+		   @ResponseBody
+		    public User getUserByEmail(@RequestParam String email) {
+		     
+		    User u= us.getUserByEmail(email);
+		    return u;
+		    }
 		
 		
 		@GetMapping("/getuserById/{id}")
