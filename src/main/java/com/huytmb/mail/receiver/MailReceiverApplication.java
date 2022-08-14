@@ -31,3 +31,4 @@ public class MailReceiverApplication {
 		SpringApplication.run(MailReceiverApplication.class, args);
 	}}
 
+ 

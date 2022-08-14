@@ -235,6 +235,7 @@ public Page<User> getAllUsers(PageRequest pr,String recherche){
   	
   	public void updatePassword (User user,String newPassword){
   		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+  		System.out.println("le mot de passe "+newPassword);
   		String encodedPassword = passwordEncoder.encode(newPassword);
   		
   		user.setPassword(encodedPassword);

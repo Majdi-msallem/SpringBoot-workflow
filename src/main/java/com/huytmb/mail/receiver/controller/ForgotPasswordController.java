@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,8 +41,9 @@ public class ForgotPasswordController {
 		String token = RandomString.make(45);
 		try{
 			us.updateResetPassword(token, email);
-			String resetPasswordLink = u.getSiteUrl(request)+"/resetpassword?token="+token;
+			//String resetPasswordLink = u.getSiteUrl(request)+"/resetpassword?token="+token;
 			//System.out.println("liiink"+resetPasswordLink);
+			  String  resetPasswordLink = ("http:"+"//"+"127.0.0.1:4200/auth/reset?token="+token);
 			us.sendResetPasswordnEmail(email, resetPasswordLink);
 			model.addAttribute("message","We have sent a reset password Link to your email ");
 			
@@ -73,13 +75,17 @@ public class ForgotPasswordController {
 		}
 	
 	
-		@PostMapping("/reset_password")
-		public String ProcessResetPassword(HttpServletRequest request,Model model ){
-			String token = request.getParameter("token");
-			String Password = request.getParameter("Password");
+		@GetMapping("/resetpassword/{token}/{Password}")
+		public String ProcessResetPassword(@PathVariable String Password,@PathVariable String token ,Model model ){
+			//String token = request.getParameter("token");
+			//String Password = request.getParameter("Password");
 			
 			//passer le token on front
 			User user = us.get(token);
+			
+			System.out.println("user"+user);
+			System.out.println("token"+token);
+			System.out.println("Password"+Password);
 			
 			if (user == null){
 				model.addAttribute("title", "Reset your  Password");
@@ -90,7 +96,7 @@ public class ForgotPasswordController {
 				model.addAttribute("message", "you have successfully changed your paswsord.");
 			}
             	
-				return "message";
+				return Password;
 	
 		}
 		
