@@ -41,7 +41,7 @@ public class UserController {
 	
 
 	 //lancer la methode depuis le demarrage de lapplication
-/*	@PostConstruct
+	/*@PostConstruct
 	public void initRolesAndUSers(){
 		us.initRolesAndUSer();
 	}*/

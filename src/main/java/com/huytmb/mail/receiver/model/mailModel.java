@@ -37,18 +37,13 @@ public class mailModel {
 	    private String senderAddress;
 	    @Column(columnDefinition = "LONGTEXT")
 	    private String cc;
-	    private String contentType;
-	    private String cause;
 	   private String meet;
 	    
 	    
 		@Enumerated(EnumType.STRING)
 	    private Status Status;
 		
-		
-;
-		
-		
+
 		@ManyToOne(cascade =CascadeType.PERSIST)
 		private Traitement tr1;
 		
@@ -111,20 +106,6 @@ public class mailModel {
 			this.cc = cc;
 		}
 
-
-
-		public String getContentType() {
-			return contentType;
-		}
-
-
-
-		public void setContentType(String contentType) {
-			this.contentType = contentType;
-		}
-
-
-
 		public Status getStatus() {
 			return Status;
 		}
@@ -170,20 +151,7 @@ public class mailModel {
 			this.attachments = attachments;
 		}
 
-
-
-		public String getCause() {
-			return cause;
-		}
-
-
-
-		public void setCause(String cause) {
-			this.cause = cause;
-		}
-
-
-
+		
 		public Traitement getTr3() {
 			return tr3;
 		}
